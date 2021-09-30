@@ -8,8 +8,8 @@ azure-mgmt-resource = "*"
 azure-mgmt-datafactory = "*"
 azure-identity = "*"
 python-dotenv = "*"
-storage = "*"
 azure-mgmt-storage = "*"
+azure-storage-blob = "*"
 
 [dev-packages]
 pylint = "*"
