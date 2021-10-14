@@ -1,7 +1,7 @@
+import os
 from typing import Optional
 
-from azure.core.exceptions import ResourceNotFoundError
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.storage.blob import BlobServiceClient, ContainerClient
 
 from azureclient.storage.sa import AZStorageAccount
 from config.azconfig import AZDataPipelineConfig
@@ -14,7 +14,12 @@ class BlobStorageContainer:
         self.container_name = container_name
         self._conn_str = conn_str
         self._storage_client: Optional[BlobServiceClient] = BlobServiceClient.from_connection_string(conn_str=conn_str)
+
         self._container_client: Optional[ContainerClient] = None
+
+    @property
+    def conn_string(self):
+        return self._conn_str
 
     def exists(self):
         self._container_client = self._storage_client.get_container_client(self.container_name)
@@ -32,10 +37,40 @@ class BlobStorageContainer:
             self._container_client.delete_container()
             print(f"The storage container ({self.container_name}) has been deleted.")
 
-    def upload_file(self, filepath: str):
+    def add_directory(self, folder_name: str):
         pass
+
+    def upload_file(self, filepath: str, blob: str = None):
+        # Create a blob client using the local file name as the name for the blob
+        if not blob:
+            blob = os.path.basename(filepath)
+
+        blob_client = self._storage_client.get_blob_client(container=self.container_name, blob=blob)
+        print("Uploading to Azure Storage as blob: {}".format(blob))
+        with open(filepath, "rb") as data:
+            blob_client.upload_blob(data)
+
+    def delete_file(self, blob: str):
+        blob_client = self._storage_client.get_blob_client(container=self.container_name, blob=blob)
+        blob_client.delete_blob()
 
 
 if __name__ == '__main__':
-    bsc = BlobStorageContainer()
-    bsc.create()
+
+    is_to_test_run = True
+    is_to_create = True
+    is_to_delete = False
+
+    if is_to_test_run:
+        bsc = BlobStorageContainer()
+        if bsc.exists():
+            print(f"The storage container ({bsc.container_name}) exists.")
+            if is_to_delete:
+                bsc.delete()
+        else:
+            if is_to_create:
+                bsc.create()
+
+        bsc.upload_file("/Users/tungnguyen/Documents/Github/python-azure-data-engineering/data/cars.csv")
+    else:
+        pass

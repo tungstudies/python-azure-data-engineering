@@ -1,10 +1,9 @@
 from azure.core.exceptions import ResourceNotFoundError, ServiceResponseTimeoutError
 from azure.mgmt.datafactory import DataFactoryManagementClient
 from azure.mgmt.datafactory.models import Factory
+from azureclient.rg import AZResourceGroup
 from config.azconfig import AZDataPipelineConfig
 from utilities.helper import countdown
-
-from azureclient.rg import AZResourceGroup
 
 
 class AZDataFactory:
@@ -29,7 +28,7 @@ class AZDataFactory:
             return False
 
     def create_or_update(
-            self, location: str = AZDataPipelineConfig.RG_LOCATION, tags: dict = AZDataPipelineConfig.TAGS
+        self, location: str = AZDataPipelineConfig.RG_LOCATION, tags: dict = AZDataPipelineConfig.TAGS
     ):
         created_or_updated = "updated" if self.exists() else "created"
 

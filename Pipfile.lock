@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "481c87b0821eef23b653cbb08f546fbf071ba345d30179e828260141c2999bca"
+            "sha256": "9f0e8df650c2d8a2ae7f4dbec1ff97f82eff297f567c7738fb85c0c93fb44fd3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -76,6 +76,14 @@
             ],
             "index": "pypi",
             "version": "==12.9.0"
+        },
+        "azure-storage-file-datalake": {
+            "hashes": [
+                "sha256:ddaa9aa3415dd53b5e21ccd1c3e400d7b20c1ee5d1f7c856059539230c2c5932",
+                "sha256:ff7c9827cdaa0d8208a6e63e6f167186bfb084150012379fac1ca778b79bd602"
+            ],
+            "index": "pypi",
+            "version": "==12.5.0"
         },
         "certifi": {
             "hashes": [
